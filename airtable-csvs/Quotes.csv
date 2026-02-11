@@ -1,0 +1,11 @@
+Text,Participant Name,Transcript ID,Timestamp,Key Learning
+"Every time I switch between Compute and Networking, I lose my place. The nav just disappears and I have to figure out where I am again.","Sarah Chen","T-001","12:34","Users expect persistent navigation across all console sections"
+"I need that sidebar to always be there. It's like a map - without it, I'm just clicking around hoping I find the right page.","Marcus Johnson","T-002","08:15","Users expect persistent navigation across all console sections"
+"In AWS, the navigation stays put. I can always see where I am in the hierarchy. That's what I expect here too.","Priya Patel","T-003","22:47","Users expect persistent navigation across all console sections"
+"The first thing I do every morning is check my instance health and cost alerts. Why isn't that front and center?","David Kim","T-004","05:22","Dashboard customization is critical for daily workflows"
+"I've been asking for customizable dashboards for two years. Every team has different KPIs - one size doesn't fit all.","Sarah Chen","T-001","31:08","Dashboard customization is critical for daily workflows"
+"There's like 40 services in this dropdown and they're all the same size text. I can never find Database quickly.","Marcus Johnson","T-002","15:33","Service switcher needs better visual hierarchy"
+"I tried searching for 'block storage' but it's listed as 'Block Volumes'. The search should handle synonyms.","Priya Patel","T-003","09:41","Service switcher needs better visual hierarchy"
+"Why can't I pin my most-used services to the top? I only use about 5 of these regularly.","David Kim","T-004","18:55","Service switcher needs better visual hierarchy"
+"Oh, I can see I'm in Networking > VCN > Subnet > Security List. That's really helpful. Without that trail I'd have no idea how deep I am.","Sarah Chen","T-001","44:12","Breadcrumb navigation reduces cognitive load in deep hierarchies"
+"The breadcrumbs are like a safety net. I know I can always click back to where I was without using the browser back button.","Marcus Johnson","T-002","27:09","Breadcrumb navigation reduces cognitive load in deep hierarchies"
