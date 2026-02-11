@@ -1,5 +1,5 @@
-Transcript ID,Participant Name,Date,Raw Text
-T-001,Sarah Chen,,
-T-002,Marcus Johnson,,
-T-003,Priya Patel,,
-T-004,David Kim,,
+Transcript ID,Participant Name,Date,Raw Text,Processing Status
+T-001,,,,"Not Processed"
+T-002,,,,"Not Processed"
+T-003,,,,"Not Processed"
+T-004,,,,"Not Processed"
