@@ -1,0 +1,14 @@
+{
+  "name": "research-transcript-analyzer",
+  "version": "1.0.0",
+  "description": "Processes Airtable transcripts with Claude AI and writes insights back",
+  "type": "module",
+  "scripts": {
+    "analyze": "node analyze.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "airtable": "^0.12.2",
+    "dotenv": "^16.4.7"
+  }
+}
