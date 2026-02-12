@@ -309,7 +309,12 @@ async function main() {
   }));
 
   // Find unprocessed transcripts
+  const reprocess = process.argv.includes("--reprocess");
+  if (reprocess) {
+    console.log("⚠ --reprocess flag detected: will re-analyze ALL transcripts\n");
+  }
   const unprocessed = transcriptRecords.filter((r) => {
+    if (reprocess) return true;
     const status = r.get("Processing Status") || "";
     return status !== "Processed" && status !== "Processing";
   });

@@ -4,7 +4,8 @@
   "description": "Processes Airtable transcripts with Claude AI and writes insights back",
   "type": "module",
   "scripts": {
-    "analyze": "node analyze.js"
+    "analyze": "node analyze.js",
+    "reprocess": "node analyze.js --reprocess"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
