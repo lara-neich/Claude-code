@@ -113,7 +113,10 @@ Rules:
 - For the FIRST transcript analyzed, keep confidence scores modest (30-60 range)
 - Only increase confidence above 70 when multiple transcripts reinforce the same finding
 - Tags should be lowercase, short category labels
-- Quotes must be EXACT text from the transcript — do not paraphrase
+- Quotes must be EXACT text from the transcript — do not paraphrase. Keep quotes concise (1-3 sentences max)
+- Limit to the 5-8 MOST important quotes per transcript
+- Limit to 3-6 key learnings per transcript — focus on the strongest signals
+- Limit to 3-5 next steps per transcript
 - Next steps should be specific and actionable, not generic
 - Map insights to learning objectives ONLY when there is a clear connection
 - Deduplicate: if an existing insight covers the same theme, use confidence_updates instead of creating a new one`;
