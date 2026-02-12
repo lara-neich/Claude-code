@@ -202,22 +202,24 @@ ${rawText}`;
   if (analysis.key_learnings) {
     for (const learning of analysis.key_learnings) {
       if (!learning.is_new) continue;
-      await createRecord("Key_Learnings", {
+      const confValue = String(learning.confidence || 50);
+      const confHistory = `${transcriptId}: ${confValue}`;
+      const newRecord = await createRecord("Key_Learnings", {
         Title: learning.title || "Untitled Insight",
-        Confidence: String(learning.confidence || 50),
+        Confidence: confValue,
         Tags: (learning.tags || []).join(", "),
         Why: learning.why || "",
         "Achieved Objectives": (learning.achieved_objectives || []).join(", "),
         "Follow Up Questions": (learning.follow_up_questions || []).join("; "),
-        "Confidence Over Time": String(learning.confidence || 50),
+        "Confidence Over Time": confHistory,
         "Source Transcripts": transcriptId,
       });
       // Add to existing learnings so the next transcript in this batch sees it
       existingLearnings.push({
-        id: null,
+        id: newRecord.id,
         title: learning.title,
-        confidence: String(learning.confidence),
-        confidenceOverTime: String(learning.confidence),
+        confidence: confValue,
+        confidenceOverTime: confHistory,
         sourceTranscripts: transcriptId,
       });
       console.log(
@@ -239,14 +241,15 @@ ${rawText}`;
         const prevSources = existing.sourceTranscripts
           ? existing.sourceTranscripts + ", "
           : "";
+        const newConfStr = String(update.new_confidence);
+        const newHistoryEntry = `${transcriptId}: ${newConfStr}`;
         await updateRecord("Key_Learnings", existing.id, {
-          Confidence: String(update.new_confidence),
-          "Confidence Over Time": prevHistory + String(update.new_confidence),
+          Confidence: newConfStr,
+          "Confidence Over Time": prevHistory + newHistoryEntry,
           "Source Transcripts": prevSources + transcriptId,
         });
-        existing.confidence = String(update.new_confidence);
-        existing.confidenceOverTime =
-          prevHistory + String(update.new_confidence);
+        existing.confidence = newConfStr;
+        existing.confidenceOverTime = prevHistory + newHistoryEntry;
         existing.sourceTranscripts = prevSources + transcriptId;
         console.log(
           `     ↑ Updated: "${existing.title}" → confidence ${update.new_confidence}`
