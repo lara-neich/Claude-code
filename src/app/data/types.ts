@@ -32,6 +32,7 @@ export interface CheckableItem {
 export interface Study {
   name: string
   participantFilter: string
+  totalParticipants: number
   goals: CheckableItem[]
   learningObjectives: CheckableItem[]
   nextSteps: CheckableItem[]

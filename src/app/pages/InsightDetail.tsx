@@ -7,6 +7,11 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import type { Study, KeyLearning } from "../data/types"
 import * as airtable from "../services/airtable"
+import {
+  calculateBayesianConfidence,
+  getUniqueParticipantCount,
+  buildConfidenceOverTime,
+} from "@/lib/bayesian"
 
 export default function InsightDetail() {
   const { insightId } = useParams()
@@ -66,7 +71,7 @@ export default function InsightDetail() {
     )
   }
 
-  if (!insight) {
+  if (!insight || !study) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
@@ -107,13 +112,19 @@ export default function InsightDetail() {
       <div className="flex">
         {/* Left Panel - Insight Details */}
         <div className="w-[720px] p-8 border-r space-y-8">
-          {/* Confidence */}
-          <div>
-            <p className="text-sm text-muted-foreground mb-2">
-              Confidence: {insight.confidence}%
-            </p>
-            <Progress value={insight.confidence} className="h-10" />
-          </div>
+          {/* Confidence — Bayesian posterior mean */}
+          {(() => {
+            const participantCount = getUniqueParticipantCount(insight)
+            const confidence = calculateBayesianConfidence(participantCount, study.totalParticipants)
+            return (
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">
+                  Confidence: {confidence}% ({participantCount} of {study.totalParticipants} participants)
+                </p>
+                <Progress value={confidence} className="h-10" />
+              </div>
+            )
+          })()}
 
           {/* Title */}
           <div className="group">
@@ -193,13 +204,13 @@ export default function InsightDetail() {
             </CardContent>
           </Card>
 
-          {/* Confidence Over Time */}
+          {/* Confidence Over Time — Bayesian update after each interview */}
           <div>
             <h2 className="text-lg font-semibold mb-3">
               Insight confidence over time
             </h2>
             <div className="space-y-3">
-              {insight.confidenceOverTime.map((point) => (
+              {buildConfidenceOverTime(insight, study.totalParticipants).map((point) => (
                 <div key={point.interview} className="flex items-center gap-3">
                   <span className="w-[120px] text-sm text-muted-foreground">
                     {point.interview}

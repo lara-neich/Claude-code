@@ -15,6 +15,7 @@ import {
 import { cn } from "@/lib/utils"
 import type { Study } from "../data/types"
 import * as airtable from "../services/airtable"
+import { calculateBayesianConfidence, getUniqueParticipantCount } from "@/lib/bayesian"
 
 export default function Overview() {
   const navigate = useNavigate()
@@ -238,14 +239,23 @@ export default function Overview() {
                     {insight.title}
                   </h2>
 
-                  {/* Confidence */}
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="text-sm text-muted-foreground">
-                      {insight.confidence >= 70 ? "High" : insight.confidence >= 40 ? "Medium" : "Low"} confidence
-                    </span>
-                    <Progress value={insight.confidence} className="flex-1 max-w-[300px]" />
-                    <span className="text-sm font-medium">{insight.confidence}%</span>
-                  </div>
+                  {/* Confidence — Bayesian posterior mean based on corroborating participants */}
+                  {(() => {
+                    const participantCount = getUniqueParticipantCount(insight)
+                    const confidence = calculateBayesianConfidence(participantCount, study.totalParticipants)
+                    return (
+                      <div className="flex items-center gap-3 mb-4">
+                        <span className="text-sm text-muted-foreground">
+                          {confidence >= 70 ? "High" : confidence >= 40 ? "Medium" : "Low"} confidence
+                        </span>
+                        <Progress value={confidence} className="flex-1 max-w-[300px]" />
+                        <span className="text-sm font-medium">{confidence}%</span>
+                        <span className="text-sm text-muted-foreground">
+                          ({participantCount}/{study.totalParticipants} participants)
+                        </span>
+                      </div>
+                    )
+                  })()}
 
                   {/* Why */}
                   <div className="mb-4">
