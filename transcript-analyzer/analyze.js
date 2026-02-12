@@ -161,11 +161,14 @@ ${rawText}`;
   try {
     const response = await claude.messages.create({
       model: "claude-sonnet-4-5-20250929",
-      max_tokens: 4096,
+      max_tokens: 16384,
       system: SYSTEM_PROMPT,
       messages: [{ role: "user", content: userMessage }],
     });
 
+    if (response.stop_reason === "max_tokens") {
+      throw new Error("Response truncated — max_tokens reached. Increase max_tokens.");
+    }
     const rawContent = response.content[0].text;
     const jsonStr = rawContent
       .replace(/```json\n?/g, "")
@@ -174,9 +177,14 @@ ${rawText}`;
     analysis = JSON.parse(jsonStr);
   } catch (err) {
     console.error(`  ❌ Error analyzing ${transcriptId}:`, err.message);
-    await updateRecord("Transcripts", record.id, {
-      "Processing Status": "Error — " + err.message.slice(0, 50),
-    });
+    try {
+      await updateRecord("Transcripts", record.id, {
+        "Processing Status": "Error",
+      });
+    } catch (_) {
+      // If "Error" isn't a valid select option, just log it
+      console.error(`  ⚠ Could not update status for ${transcriptId}`);
+    }
     return;
   }
 
