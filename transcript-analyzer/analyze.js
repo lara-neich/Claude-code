@@ -278,7 +278,6 @@ ${rawText}`;
       await createRecord("Next_Steps", {
         Text: step.text || "",
         Priority: step.priority || "Medium",
-        Checked: false,
         "Related Insight": step.related_insight || "",
       });
     }
